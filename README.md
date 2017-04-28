@@ -1,2 +1,2 @@
 # biojava-legacy-adam
-BioJava legacy and ADAM integration. 
+BioJava 1.x (biojava-legacy) and ADAM integration. 
