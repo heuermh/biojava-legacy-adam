@@ -197,7 +197,7 @@ public class BiojavaAdamContext extends ADAMContext {
         try (BufferedReader reader = reader(path)) {
             JavaRDD<org.biojava.bio.seq.Sequence> biojavaSequences = javaSparkContext.parallelize(collect(SeqIOTools.readFastaRNA(reader)));
             JavaRDD<Sequence> sequences = biojavaSequences.map(biojavaSequence -> sequenceConverter.convert(biojavaSequence, ConversionStringency.STRICT, log()));
-            SequenceRDD.apply(sequences.rdd());
+            return SequenceRDD.apply(sequences.rdd());
         }
     }
 
