@@ -35,6 +35,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
+
 import com.google.inject.Injector;
 import com.google.inject.Guice;
 import com.google.inject.Key;
@@ -163,7 +165,7 @@ public class BiojavaAdamContext extends ADAMContext {
         log().info("Loading " + path + " in FASTQ format as reads...");
         FastqReader fastqReader = new SangerFastqReader();
         try (InputStream inputStream = inputStream(path)) {
-            JavaRDD<Fastq> fastqs = javaSparkContext.parallelize((List<Fastq>) fastqReader.read(inputStream));
+            JavaRDD<Fastq> fastqs = javaSparkContext.parallelize(collect(fastqReader.read(inputStream)));
             JavaRDD<Read> reads = fastqs.map(fastq -> readConverter.convert(fastq, ConversionStringency.STRICT, log()));
             return ReadRDD.apply(reads.rdd());
         }
@@ -480,6 +482,16 @@ public class BiojavaAdamContext extends ADAMContext {
             // ignore
         }
         return sequences;
+    }
+
+    /**
+     * Collect the specified iterable into a list.
+     *
+     * @param iterable iterable to collect
+     * @return the specified iterable collected into a list
+     */
+    static <T> List<T> collect(final Iterable<T> iterable) {
+        return ImmutableList.copyOf(iterable);
     }
 
     /**
