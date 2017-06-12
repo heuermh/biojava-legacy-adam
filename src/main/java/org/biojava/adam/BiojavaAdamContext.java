@@ -379,7 +379,7 @@ public class BiojavaAdamContext extends ADAMContext {
         try (BufferedReader reader = reader(path)) {
             JavaRDD<RichSequence> richSequences = javaSparkContext.parallelize(collect(RichSequence.IOTools.readGenbankDNA(reader, null)));
             JavaRDD<Feature> features = richSequences.flatMap(richSequence -> featureConverter.convert(richSequence, ConversionStringency.STRICT, log()).iterator());
-            return FeatureRDD.inferSequenceDictionary(features.rdd(), new Some(StorageLevel.MEMORY_ONLY()));
+            return FeatureRDD.apply(features.rdd(), new Some(StorageLevel.MEMORY_ONLY()));
         }
     }
 
@@ -395,7 +395,7 @@ public class BiojavaAdamContext extends ADAMContext {
         try (BufferedReader reader = reader(path)) {
             JavaRDD<RichSequence> richSequences = javaSparkContext.parallelize(collect(RichSequence.IOTools.readGenbankRNA(reader, null)));
             JavaRDD<Feature> features = richSequences.flatMap(richSequence -> featureConverter.convert(richSequence, ConversionStringency.STRICT, log()).iterator());
-            return FeatureRDD.inferSequenceDictionary(features.rdd(), new Some(StorageLevel.MEMORY_ONLY()));
+            return FeatureRDD.apply(features.rdd(), new Some(StorageLevel.MEMORY_ONLY()));
         }
     }
 
@@ -411,7 +411,7 @@ public class BiojavaAdamContext extends ADAMContext {
         try (BufferedReader reader = reader(path)) {
             JavaRDD<RichSequence> richSequences = javaSparkContext.parallelize(collect(RichSequence.IOTools.readGenbankProtein(reader, null)));
             JavaRDD<Feature> features = richSequences.flatMap(richSequence -> featureConverter.convert(richSequence, ConversionStringency.STRICT, log()).iterator());
-            return FeatureRDD.inferSequenceDictionary(features.rdd(), new Some(StorageLevel.MEMORY_ONLY()));
+            return FeatureRDD.apply(features.rdd(), new Some(StorageLevel.MEMORY_ONLY()));
         }
     }
 
@@ -428,7 +428,7 @@ public class BiojavaAdamContext extends ADAMContext {
         try (BufferedReader reader = reader(path)) {
             JavaRDD<RichSequence> richSequences = javaSparkContext.parallelize(collect(RichSequence.IOTools.readEMBLDNA(reader, null)));
             JavaRDD<Feature> features = richSequences.flatMap(richSequence -> featureConverter.convert(richSequence, ConversionStringency.STRICT, log()).iterator());
-            return FeatureRDD.inferSequenceDictionary(features.rdd(), new Some(StorageLevel.MEMORY_ONLY()));
+            return FeatureRDD.apply(features.rdd(), new Some(StorageLevel.MEMORY_ONLY()));
         }
     }
 
@@ -444,7 +444,7 @@ public class BiojavaAdamContext extends ADAMContext {
         try (BufferedReader reader = reader(path)) {
             JavaRDD<RichSequence> richSequences = javaSparkContext.parallelize(collect(RichSequence.IOTools.readEMBLRNA(reader, null)));
             JavaRDD<Feature> features = richSequences.flatMap(richSequence -> featureConverter.convert(richSequence, ConversionStringency.STRICT, log()).iterator());
-            return FeatureRDD.inferSequenceDictionary(features.rdd(), new Some(StorageLevel.MEMORY_ONLY()));
+            return FeatureRDD.apply(features.rdd(), new Some(StorageLevel.MEMORY_ONLY()));
         }
     }
 
@@ -460,7 +460,7 @@ public class BiojavaAdamContext extends ADAMContext {
         try (BufferedReader reader = reader(path)) {
             JavaRDD<RichSequence> richSequences = javaSparkContext.parallelize(collect(RichSequence.IOTools.readEMBLProtein(reader, null)));
             JavaRDD<Feature> features = richSequences.flatMap(richSequence -> featureConverter.convert(richSequence, ConversionStringency.STRICT, log()).iterator());
-            return FeatureRDD.inferSequenceDictionary(features.rdd(), new Some(StorageLevel.MEMORY_ONLY()));
+            return FeatureRDD.apply(features.rdd(), new Some(StorageLevel.MEMORY_ONLY()));
         }
     }
 
