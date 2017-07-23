@@ -52,8 +52,6 @@ import org.apache.spark.rdd.RDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
-import org.apache.spark.storage.StorageLevel;
-
 import org.bdgenomics.adam.rdd.ADAMContext;
 
 import org.bdgenomics.adam.rdd.feature.FeatureRDD;
@@ -88,8 +86,6 @@ import org.biojava.adam.convert.BiojavaModule;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import scala.Some;
 
 /**
  * Extends ADAMContext with load methods for Biojava 1.x (biojava-legacy) models.
@@ -379,7 +375,7 @@ public class BiojavaAdamContext extends ADAMContext {
         try (BufferedReader reader = reader(path)) {
             JavaRDD<RichSequence> richSequences = javaSparkContext.parallelize(collect(RichSequence.IOTools.readGenbankDNA(reader, null)));
             JavaRDD<Feature> features = richSequences.flatMap(richSequence -> featureConverter.convert(richSequence, ConversionStringency.STRICT, log()).iterator());
-            return FeatureRDD.apply(features.rdd(), new Some(StorageLevel.MEMORY_ONLY()));
+            return FeatureRDD.apply(features.rdd());
         }
     }
 
@@ -395,7 +391,7 @@ public class BiojavaAdamContext extends ADAMContext {
         try (BufferedReader reader = reader(path)) {
             JavaRDD<RichSequence> richSequences = javaSparkContext.parallelize(collect(RichSequence.IOTools.readGenbankRNA(reader, null)));
             JavaRDD<Feature> features = richSequences.flatMap(richSequence -> featureConverter.convert(richSequence, ConversionStringency.STRICT, log()).iterator());
-            return FeatureRDD.apply(features.rdd(), new Some(StorageLevel.MEMORY_ONLY()));
+            return FeatureRDD.apply(features.rdd());
         }
     }
 
@@ -411,7 +407,7 @@ public class BiojavaAdamContext extends ADAMContext {
         try (BufferedReader reader = reader(path)) {
             JavaRDD<RichSequence> richSequences = javaSparkContext.parallelize(collect(RichSequence.IOTools.readGenbankProtein(reader, null)));
             JavaRDD<Feature> features = richSequences.flatMap(richSequence -> featureConverter.convert(richSequence, ConversionStringency.STRICT, log()).iterator());
-            return FeatureRDD.apply(features.rdd(), new Some(StorageLevel.MEMORY_ONLY()));
+            return FeatureRDD.apply(features.rdd());
         }
     }
 
@@ -428,7 +424,7 @@ public class BiojavaAdamContext extends ADAMContext {
         try (BufferedReader reader = reader(path)) {
             JavaRDD<RichSequence> richSequences = javaSparkContext.parallelize(collect(RichSequence.IOTools.readEMBLDNA(reader, null)));
             JavaRDD<Feature> features = richSequences.flatMap(richSequence -> featureConverter.convert(richSequence, ConversionStringency.STRICT, log()).iterator());
-            return FeatureRDD.apply(features.rdd(), new Some(StorageLevel.MEMORY_ONLY()));
+            return FeatureRDD.apply(features.rdd());
         }
     }
 
@@ -444,7 +440,7 @@ public class BiojavaAdamContext extends ADAMContext {
         try (BufferedReader reader = reader(path)) {
             JavaRDD<RichSequence> richSequences = javaSparkContext.parallelize(collect(RichSequence.IOTools.readEMBLRNA(reader, null)));
             JavaRDD<Feature> features = richSequences.flatMap(richSequence -> featureConverter.convert(richSequence, ConversionStringency.STRICT, log()).iterator());
-            return FeatureRDD.apply(features.rdd(), new Some(StorageLevel.MEMORY_ONLY()));
+            return FeatureRDD.apply(features.rdd());
         }
     }
 
@@ -460,7 +456,7 @@ public class BiojavaAdamContext extends ADAMContext {
         try (BufferedReader reader = reader(path)) {
             JavaRDD<RichSequence> richSequences = javaSparkContext.parallelize(collect(RichSequence.IOTools.readEMBLProtein(reader, null)));
             JavaRDD<Feature> features = richSequences.flatMap(richSequence -> featureConverter.convert(richSequence, ConversionStringency.STRICT, log()).iterator());
-            return FeatureRDD.apply(features.rdd(), new Some(StorageLevel.MEMORY_ONLY()));
+            return FeatureRDD.apply(features.rdd());
         }
     }
 
