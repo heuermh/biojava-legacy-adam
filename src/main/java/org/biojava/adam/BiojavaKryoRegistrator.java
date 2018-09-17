@@ -37,6 +37,9 @@ import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 
+import com.esotericsoftware.kryo.serializers.BeanSerializer;
+import com.esotericsoftware.kryo.serializers.FieldSerializer;
+
 import com.esotericsoftware.kryo.util.ObjectMap;
 
 import com.google.common.collect.ImmutableListMultimap;
@@ -52,7 +55,7 @@ import org.biojava.bio.symbol.AlphabetManager;
 //import org.biojava.utils.ListTools;
 //import org.biojava.utils.SingletonList;
 
-//import org.biojavax.bio.seq.SimpleRichSequence;
+import org.biojavax.bio.seq.SimpleRichSequence;
 
 import org.bdgenomics.adam.serialization.ADAMKryoRegistrator;
 
@@ -78,11 +81,43 @@ public class BiojavaKryoRegistrator extends ADAMKryoRegistrator {
                 return "protein".equals(name) ? ProteinTools.getTAlphabet() : AlphabetManager.alphabetForName(name);
             }
         });
-    }
 
+        /*
+        kryo.register(SimpleRichSequence.class, new FieldSerializer<SimpleRichSequence>(kryo, SimpleRichSequence.class) {
+            @Override
+            public SimpleRichSequence read(final Kryo kryo, final Input input, final Class<SimpleRichSequence> cls) {
+                SimpleRichSequence simpleRichSequence = super.read(kryo, input, cls);
+                System.out.println("read simpleRichSequence " + simpleRichSequence);
+                try {
+                    simpleRichSequence.checkMakeSequence();
+                    System.out.println("after checkMakeSequence " + simpleRichSequence.getInternalSymbolList());
+                    System.out.println("seqString " + simpleRichSequence.seqString().substring(0, 30));
+                }
+                catch (Exception e) {
+                    System.out.println("could not checkMakeSequence, caught " + e);
+                    e.printStackTrace();
+                }
+                return simpleRichSequence;
+            }
+        });
+        */
+
+        /*
+        kryo.register(SimpleRichSequence.class, new Serializer<SimpleRichSequence>() {
+            @Override
+            public void write(final Kryo kryo, final Output output, final SimpleRichSequence simpleRichSequence) {
+            }
+
+            @Override
+            public SimpleRichSequence read(final Kryo kryo, final Input input, final Class<SimpleRichSequence> cls) {
+            }
+        });
+        */
     /*
 
         wip...
+
+        // kryo.register(SimpleRichSequence.class, new BeanSerializer(kryo, SimpleRichSequence.class));
 
         System.out.println("registering custom serializer for " + DNATools.getDNA().getClass() + "...");
         kryo.register(DNATools.getDNA().getClass(), new Serializer() {
@@ -190,4 +225,5 @@ public class BiojavaKryoRegistrator extends ADAMKryoRegistrator {
         }
     }
     */
+    }
 }
