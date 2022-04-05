@@ -1,7 +1,7 @@
 /*
 
-    biojava-legacy adam  BioJava 1.x (biojava-legacy) and ADAM integration.
-    Copyright (c) 2013-2017 held jointly by the individual authors.
+    biojava-legacy-adam  BioJava 1.x (biojava-legacy) and ADAM integration.
+    Copyright (c) 2013-2022 held jointly by the individual authors.
 
     This library is free software; you can redistribute it and/or modify it
     under the terms of the GNU Lesser General Public License as published
@@ -35,7 +35,6 @@ import org.bdgenomics.convert.ConversionException;
 import org.bdgenomics.convert.ConversionStringency;
 
 import org.bdgenomics.formats.avro.Read;
-import org.bdgenomics.formats.avro.QualityScoreVariant;
 
 import org.biojava.bio.program.fastq.Fastq;
 import org.biojava.bio.program.fastq.FastqBuilder;
@@ -51,23 +50,16 @@ import org.slf4j.LoggerFactory;
  */
 public final class FastqToReadTest {
     private final Logger logger = LoggerFactory.getLogger(FastqToReadTest.class);
-    private Converter<FastqVariant, QualityScoreVariant> fastqVariantConverter;
     private Converter<Fastq, Read> fastqConverter;
 
     @Before
     public void setUp() throws Exception {
-        fastqVariantConverter = new FastqVariantToQualityScoreVariant();
-        fastqConverter = new FastqToRead(fastqVariantConverter);
+        fastqConverter = new FastqToRead();
     }
 
     @Test
     public void testConstructor() {
         assertNotNull(fastqConverter);
-    }
-
-    @Test(expected=NullPointerException.class)
-    public void testConstructorNullFastqVariantConverter() {
-        new FastqToRead(null);
     }
 
     @Test(expected=ConversionException.class)
@@ -99,6 +91,5 @@ public final class FastqToReadTest {
         assertEquals(fastq.getSequence(), read.getSequence());
         assertEquals(fastq.getQuality(), read.getQualityScores());
         assertEquals(org.bdgenomics.formats.avro.Alphabet.DNA, read.getAlphabet());
-        assertEquals(QualityScoreVariant.FASTQ_SANGER, read.getQualityScoreVariant());
     }
 }

@@ -1,7 +1,7 @@
 /*
 
-    biojava-legacy adam  BioJava 1.x (biojava-legacy) and ADAM integration.
-    Copyright (c) 2013-2017 held jointly by the individual authors.
+    biojava-legacy-adam  BioJava 1.x (biojava-legacy) and ADAM integration.
+    Copyright (c) 2013-2022 held jointly by the individual authors.
 
     This library is free software; you can redistribute it and/or modify it
     under the terms of the GNU Lesser General Public License as published
@@ -35,7 +35,6 @@ import org.bdgenomics.convert.ConversionException;
 import org.bdgenomics.convert.ConversionStringency;
 
 import org.bdgenomics.formats.avro.Read;
-import org.bdgenomics.formats.avro.QualityScoreVariant;
 
 import org.biojava.bio.program.fastq.Fastq;
 import org.biojava.bio.program.fastq.FastqVariant;
@@ -50,23 +49,16 @@ import org.slf4j.LoggerFactory;
  */
 public final class ReadToFastqTest {
     private final Logger logger = LoggerFactory.getLogger(ReadToFastqTest.class);
-    private Converter<QualityScoreVariant, FastqVariant> fastqVariantConverter;
     private Converter<Read, Fastq> fastqConverter;
 
     @Before
     public void setUp() throws Exception {
-        fastqVariantConverter = new QualityScoreVariantToFastqVariant();
-        fastqConverter = new ReadToFastq(fastqVariantConverter);
+        fastqConverter = new ReadToFastq();
     }
 
     @Test
     public void testConstructor() {
         assertNotNull(fastqConverter);
-    }
-
-    @Test(expected=NullPointerException.class)
-    public void testConstructorNullFastqVariantConverter() {
-        new ReadToFastq(null);
     }
 
     @Test(expected=ConversionException.class)
@@ -90,7 +82,6 @@ public final class ReadToFastqTest {
             .setName("read/1")
             .setSequence("actg")
             .setQualityScores("e896")
-            .setQualityScoreVariant(QualityScoreVariant.FASTQ_SANGER)
             .build();
 
         Fastq fastq = fastqConverter.convert(read, ConversionStringency.STRICT, logger);

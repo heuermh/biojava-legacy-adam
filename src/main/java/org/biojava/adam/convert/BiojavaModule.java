@@ -1,7 +1,7 @@
 /*
 
-    biojava-legacy adam  BioJava 1.x (biojava-legacy) and ADAM integration.
-    Copyright (c) 2013-2017 held jointly by the individual authors.
+    biojava-legacy-adam  BioJava 1.x (biojava-legacy) and ADAM integration.
+    Copyright (c) 2013-2022 held jointly by the individual authors.
 
     This library is free software; you can redistribute it and/or modify it
     under the terms of the GNU Lesser General Public License as published
@@ -34,7 +34,6 @@ import com.google.inject.Singleton;
 import org.bdgenomics.convert.Converter;
 import org.bdgenomics.convert.ConversionStringency;
 
-import org.bdgenomics.formats.avro.QualityScoreVariant;
 import org.bdgenomics.formats.avro.Dbxref;
 import org.bdgenomics.formats.avro.Feature;
 import org.bdgenomics.formats.avro.OntologyTerm;
@@ -42,7 +41,6 @@ import org.bdgenomics.formats.avro.Read;
 import org.bdgenomics.formats.avro.Strand;
 
 import org.biojava.bio.program.fastq.Fastq;
-import org.biojava.bio.program.fastq.FastqVariant;
 
 import org.biojavax.bio.seq.RichSequence;
 
@@ -59,23 +57,13 @@ public final class BiojavaModule extends AbstractModule {
     }
 
     @Provides @Singleton
-    Converter<QualityScoreVariant, FastqVariant> createQualityScoreVariantToFastqVariant() {
-        return new QualityScoreVariantToFastqVariant();
+    Converter<Fastq, Read> createFastqToRead() {
+        return new FastqToRead();
     }
 
     @Provides @Singleton
-    Converter<FastqVariant, QualityScoreVariant> createFastqVariantToQualityScoreVariant() {
-        return new FastqVariantToQualityScoreVariant();
-    }
-
-    @Provides @Singleton
-    Converter<Fastq, Read> createFastqToRead(final Converter<FastqVariant, QualityScoreVariant> fastqVariantConverter) {
-        return new FastqToRead(fastqVariantConverter);
-    }
-
-    @Provides @Singleton
-    Converter<Read, Fastq> createReadToFastq(final Converter<QualityScoreVariant, FastqVariant> fastqVariantConverter) {
-        return new ReadToFastq(fastqVariantConverter);
+    Converter<Read, Fastq> createReadToFastq() {
+        return new ReadToFastq();
     }
 
     @Provides @Singleton

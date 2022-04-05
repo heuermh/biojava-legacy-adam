@@ -1,7 +1,7 @@
 /*
 
-    biojava-legacy adam  BioJava 1.x (biojava-legacy) and ADAM integration.
-    Copyright (c) 2013-2017 held jointly by the individual authors.
+    biojava-legacy-adam  BioJava 1.x (biojava-legacy) and ADAM integration.
+    Copyright (c) 2013-2022 held jointly by the individual authors.
 
     This library is free software; you can redistribute it and/or modify it
     under the terms of the GNU Lesser General Public License as published
@@ -30,12 +30,10 @@ import org.bdgenomics.convert.Converter;
 import org.bdgenomics.convert.ConversionException;
 import org.bdgenomics.convert.ConversionStringency;
 
-import org.bdgenomics.formats.avro.QualityScoreVariant;
 import org.bdgenomics.formats.avro.Read;
 
 import org.biojava.bio.program.fastq.Fastq;
 import org.biojava.bio.program.fastq.FastqBuilder;
-import org.biojava.bio.program.fastq.FastqVariant;
 
 import org.slf4j.Logger;
 
@@ -47,19 +45,11 @@ import org.slf4j.Logger;
 @Immutable
 final class ReadToFastq extends AbstractConverter<Read, Fastq> {
 
-    /** Convert bdg-formats QualityScoreVariant to Biojava 1.x FastqVariant. */
-    final Converter<QualityScoreVariant, FastqVariant> fastqVariantConverter;
-
-
     /**
      * Package private no-arg constructor.
-     *
-     * @param fastqVariantConverter convert bdg-formats QualityScoreVariant to Biojava 1.x FastqVariant, must not be null
      */
-    ReadToFastq(final Converter<QualityScoreVariant, FastqVariant> fastqVariantConverter) {
+    ReadToFastq() {
         super(Read.class, Fastq.class);
-        checkNotNull(fastqVariantConverter);
-        this.fastqVariantConverter = fastqVariantConverter;
     }
 
 
@@ -78,7 +68,7 @@ final class ReadToFastq extends AbstractConverter<Read, Fastq> {
                 .withDescription(description(read.getName(), read.getDescription()))
                 .withSequence(read.getSequence())
                 .withQuality(read.getQualityScores())
-                .withVariant(fastqVariantConverter.convert(read.getQualityScoreVariant(), stringency, logger))
+                //.withVariant(fastqVariantConverter.convert(read.getQualityScoreVariant(), stringency, logger))
                 .build();
         }
         catch (NullPointerException e) {

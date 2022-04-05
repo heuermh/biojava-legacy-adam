@@ -1,7 +1,7 @@
 /*
 
-    biojava-legacy adam  BioJava 1.x (biojava-legacy) and ADAM integration.
-    Copyright (c) 2013-2017 held jointly by the individual authors.
+    biojava-legacy-adam  BioJava 1.x (biojava-legacy) and ADAM integration.
+    Copyright (c) 2013-2022 held jointly by the individual authors.
 
     This library is free software; you can redistribute it and/or modify it
     under the terms of the GNU Lesser General Public License as published
@@ -100,7 +100,7 @@ final class RichSequenceToFeatures extends AbstractConverter<RichSequence, List<
         }
 
         final Feature.Builder fb = Feature.newBuilder()
-            .setContigName(richSequence.getName());
+            .setReferenceName(richSequence.getName());
 
         int size = richSequence.getFeatureSet().size();
         List<Feature> features = new ArrayList<Feature>(size);
